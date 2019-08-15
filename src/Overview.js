@@ -115,7 +115,11 @@ class Overview extends Component {
             sortBest: false,
             sortWorst: false,
         })
-        this.getMovies();
+        if (this.state.selectedYear === "none") {
+            this.getMovies()
+        } else {
+            this.getMovies("year=" + this.state.selectedYear);
+        }
     }
 
     render() {
@@ -130,6 +134,7 @@ class Overview extends Component {
         } else if (this.state.sortWorst) {
             movies.sort((a,b) => this.getAverageRating(a) - this.getAverageRating(b))
         }
+
         const movieElements = movies.map((item, key) =>
             <Col key={key} lg={8} sm={12} style={{marginTop: 36}}>
                 <div style={{border: "solid 1px #e9e9e9"}}>
@@ -180,7 +185,7 @@ class Overview extends Component {
                                 <Row>
                                     <Col md={5} lg={5}>
                                         <h4 style={{color: '#C0C0C0'}}>Filter on favorites</h4>
-                                        <Switch onChange={this.filterFav}/>
+                                        <Switch checked={this.state.showFav} onChange={this.filterFav}/>
                                     </Col>
                                     <Col md={5} lg={5}>
                                         <h4 style={{color: '#C0C0C0'}}>Filter on year</h4>
